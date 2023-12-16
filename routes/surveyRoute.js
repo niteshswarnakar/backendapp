@@ -1,7 +1,6 @@
 import express from "express"
-import CoronaModel from "../models/SurveyTable.js";
-import { v4 as uuidv4 } from 'uuid';
-import { postCoronoSurvey } from "../controller/surveyController.js";
+import {authenticateToken} from "../middleware/middleware.js"
+import { postCoronoSurvey, getallCoronaSuvey, getCoronaSurvey } from "../controller/surveyController.js";
 let router = express.Router()
 
 router.get("/", (req, res) => {
@@ -9,6 +8,8 @@ router.get("/", (req, res) => {
 })
 
 router.post("/form", postCoronoSurvey )
+router.get("/all", getallCoronaSuvey)
+router.get("/:id", getCoronaSurvey)
 
 
 export default router 

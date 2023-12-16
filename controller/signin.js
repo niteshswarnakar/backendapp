@@ -10,26 +10,33 @@ export default async function signin(req, res) {
   try{
 
       const user = await User.findOne({ email: req.body.email });
-      console.log({ user });
       if (!user) res.status(400).json({ message: "email doesn't exist ok" });
       //   check if password matches
       else {
-          const validPassword = await bcrypt.compare(
-              req.body.password,
-              user.password
-              );
-              if (!validPassword)
-              res.status(400).json({ message: "password didn't match ok" });
-            else {
+        try{
+
+            const validPassword = await bcrypt.compare(
+                req.body.password,
+                user.password
+                );
+
+                if (!validPassword){
+                    res.status(400).json({ message: "password didn't match ok" });
+                }
+                else {
                 // if all goes well upto now , create a json web token
-                const token = jwt.sign({ _id: user._id, email: user.email }, token_key);
-                
-                //return the token as the response
-                res.status(200).json({ email: req.body.email, token });
+                    const token = jwt.sign({ _id: user._id, email: user.email }, token_key);       
+                    console.log("TOKEN : ", token)         
+                    res.status(200).json({ email: user.email, token });
             }
+            res.status(200).json({email: user.email, token})
+        }catch(err){
+            console.log({err})
+            res.send("Error Occured")
+        }
         }
     }catch(err){
         console.log(err)
-        res.send("Could not login")
+        res.status(400).send("Could not login")
     }
 }

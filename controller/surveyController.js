@@ -25,16 +25,28 @@ export const postCoronoSurvey = async (req, res) => {
   }
 }
 
-// export const getCoronaSurvey = async (req, res) => {
-//     let {id} = req.params
-//     // let objid = new mongoose.Types.ObjectId(id) 
-//     try {
-//         const surveyRecord = await CoronaModel.findById(id)
-//         console.log({surveyRecord})
-//         console.log({id})
-//         res.status(200).send("found")
-//     }catch(err) {
-//         console.log({err})
-//         res.json({message:"could not find"})
-//     }
-// }
+export const getCoronaSurvey = async (req, res) => {
+    let {id} = req.params
+    // let objid = new mongoose.Types.ObjectId(id) 
+    try {
+        const surveyRecord = await CoronaModel.findById(id)
+        console.log({surveyRecord})
+        console.log({id})
+        res.status(200).json(surveyRecord)
+    }catch(err) {
+        console.log({err})
+        res.json({message:"could not find"})
+    }
+}
+
+export const getallCoronaSuvey = async (req, res) => {
+  console.log("USER : ", req.user)
+  try{
+    const records = await CoronaModel.find()
+    console.log({records})
+    res.status(200).json(records)
+  }catch(err){
+    console.log(err)
+    res.send("Error occurred while fetching data")
+  }
+}
