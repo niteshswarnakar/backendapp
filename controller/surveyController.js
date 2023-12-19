@@ -8,7 +8,7 @@ export const postCoronoSurvey = async (req, res) => {
     console.log("req.body - ", req.body);
     const newCoronaDetail = new CoronaModel({
     id: newid,
-    name: req.body.name,
+    name: req.body.username,
     age: req.body.age,
     documentId: newid,
     firstDoze: req.body.firstDoze,
